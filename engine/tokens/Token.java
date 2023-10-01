@@ -1,8 +1,9 @@
 package engine.tokens;
 import java.lang.IllegalArgumentException;
+import java.util.ArrayList;
 import java.util.List;
 public class Token {
-	static public enum TokenRelation {
+	public static enum TokenRelation {
 		NONE(""),
 		EQUAL("="),
 		GREATER(">"),
@@ -42,10 +43,49 @@ public class Token {
 			}
 		}
 		private static boolean must_be_at_start(TokenRelation relation){
-			return !(relation == NONE || relation.value == EQUAL.value);
+			return !(relation == NONE || relation == EQUAL);
 		}
 	}
+	public static class TokenComent {
+		public List<String> v = new ArrayList<String>(0);
+	}
+	public static final TokenRelation[] NO_RELATION = {TokenRelation.NONE, TokenRelation.NONE};
 	public TokenRelation[] relations;	//WARNING!!! Token MUST have 2 relations!
 	public String value;
 	public List<Token> childs;
+	public Token parent;
+	public TokenComent comments = new TokenComent();
+	public Token(String value) throws IllegalArgumentException {
+		this(value, NO_RELATION);
+	}
+	public Token(String value, TokenRelation[] relations) throws IllegalArgumentException {
+		this(value, relations, null);
+	}
+	public Token(String value, TokenRelation[] relations, List<Token> children) throws IllegalArgumentException {
+		if (relations.length != 2) {
+			throw new IllegalArgumentException("There is must be 2 TokenRelation");
+		}
+		this.value = value;
+		this.relations = relations;
+		addchilds(children);
+	}
+	public Token addchild(Token component) {
+        return addchild(childs.size(), component);
+    }
+    public Token addchild(int index, Token component) {
+        childs.add(index, component);
+        component.parent = this;
+        return this;
+    }
+    public Token addchilds(List<Token> children) {
+		if (children != null) {
+			if (childs == null) {
+				childs = new ArrayList<Token>(0);
+			}
+			for (Token child : children){
+				addchild(child);
+			}
+		}
+        return this;
+    }
 }
