@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 public class Token {
 	public static enum TokenRelation {
-		NONE(""),
-		EQUAL("="),
-		GREATER(">"),
-		LESS("<"),
-		INVERSIVE("!");
-		private String value;
-		TokenRelation(String value) {
-			this.value = value;
+		NONE("", 0),
+		EQUAL("=", 1),
+		GREATER(">", 2),
+		LESS("<", 2),
+		INVERSIVE("!", 3);
+		private String name;
+		private int weight;
+		TokenRelation(String name, int weight) {
+			this.name = name;
+			this.weight = weight;
 		}
 		public static TokenRelation[] parse_relation(String relation) throws IllegalArgumentException {
 			if (relation.isEmpty()){
@@ -26,7 +28,52 @@ public class Token {
 			if (relation.length != 2) {
 				throw new IllegalArgumentException("There is must be 2 TokenRelation");
 			}
-			return must_be_at_start(relation[1]) && relation[0] != INVERSIVE ? relation[1].value + relation[0].value : relation[0].value + relation[1].value;
+			if (relation[0] == relation[1]) {
+				if (relation[0] == INVERSIVE || relation[0] == EQUAL) {
+					return EQUAL.name;
+				}
+				return relation[0].name;
+			}
+			else if (relation[1].weight > relation[0].weight) {
+				return relation[1].name + relation[0].name;
+			}
+			else {
+				return relation[0].name + relation[1].name;
+			}
+		}
+		public static String get_long_relation(TokenRelation[] relation) throws IllegalArgumentException {
+			if (relation.length != 2) {
+				throw new IllegalArgumentException("There is must be 2 TokenRelation");
+			}
+			switch (relation[0].weight + relation[1].weight) {
+				case 3:
+					if (relation[0] == NONE || relation[1] == NONE) {
+						return "not_equals";
+					}
+					else if (relation[0] == GREATER || relation[1] == GREATER) {
+						return "greater_than_or_equals";
+					}
+					else {
+						return "less_than_or_equals";
+					}
+				case 4:
+					return "not_equals";
+				case 5:
+					if (relation[0] == GREATER || relation[1] == GREATER) {
+						return "less_than_or_equals";
+					}
+					else {
+						return "greater_than_or_equals";
+					}
+				default:
+					return "";
+			}
+		}
+		public static boolean pdx_sould_be_short(TokenRelation[] relation) throws IllegalArgumentException {
+			if (relation.length != 2) {
+				throw new IllegalArgumentException("There is must be 2 TokenRelation");
+			}
+			return relation[0].weight + relation[1].weight < 3 || relation[0].name == relation[1].name;
 		}
 		private static TokenRelation parse_symbol_to_relation(char c) throws IllegalArgumentException {
 			switch (c) {
@@ -41,9 +88,6 @@ public class Token {
 				default:
 					throw new IllegalArgumentException(String.format("Can`t parse \"%c\" symbol, it can be only !,=,>,<.", c));
 			}
-		}
-		private static boolean must_be_at_start(TokenRelation relation){
-			return !(relation == NONE || relation == EQUAL);
 		}
 	}
 	public static class TokenComent {

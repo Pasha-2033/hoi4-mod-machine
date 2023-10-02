@@ -12,18 +12,20 @@ public class tests {
 		test_read_write();
 	}
 	public static void test_token_relations() {
-		System.out.println(Token.TokenRelation.get_short_relation(
-			new Token.TokenRelation[] {
-				Token.TokenRelation.LESS,
-				Token.TokenRelation.INVERSIVE
-			}
-		));
+		Token.TokenRelation[] relations = new Token.TokenRelation[] {
+			Token.TokenRelation.GREATER,
+			Token.TokenRelation.EQUAL
+		};
+		System.out.println(Token.TokenRelation.get_short_relation(relations));
+		if (!Token.TokenRelation.pdx_sould_be_short(relations)) {
+			System.out.println(Token.TokenRelation.get_long_relation(relations));
+		}
 	}
 	public static void test_read_write() {
 		try {
 			System.out.println(
-				llpl_to_pdx.parse_llpl_to_pdx(
-					pdx_to_llpl.parse_pdx_to_llpl(
+				llpl_to_pdx.raw_parse_llpl_to_pdx(
+					pdx_to_llpl.raw_parse_pdx_to_llpl(
 						txt_reader.read(new File("tests/pdx_test_file.txt"))
 					)
 				)

@@ -4,7 +4,8 @@ import engine.tokens.Token;
 import engine.tokens.Token.TokenRelation;
 public class pdx_to_llpl {
 	private static char[] end_token_symbols = {'\"', ' ', '\t', '=', '>', '<', '{', '}', '#'};
-	public static List<Token> parse_pdx_to_llpl(List<String> lines){
+	//raw functions is more like traslator, can`t use optimal expression
+	public static List<Token> raw_parse_pdx_to_llpl(List<String> lines){
 		Token root = new Token("");
 		Token node = root;
 		Token last_token = null;

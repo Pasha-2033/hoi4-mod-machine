@@ -2,14 +2,15 @@ package engine.parsers;
 import java.util.List;
 import engine.tokens.Token;
 public class llpl_to_pdx {
-	public static String parse_llpl_to_pdx(List<Token> tokens){
+	//raw functions is more like traslator, can`t use optimal expression
+	public static String raw_parse_llpl_to_pdx(List<Token> tokens){
 		String result = "";
 		for (Token token : tokens) {
-			result += parse_llpl_to_pdx(token, 0);
+			result += raw_parse_llpl_to_pdx(token, 0);
 		}
 		return result;
 	}
-	public static String parse_llpl_to_pdx(Token token, int tab_lvl){
+	public static String raw_parse_llpl_to_pdx(Token token, int tab_lvl){
 		String result = "\t".repeat(tab_lvl) + token.value;
 		if (token.is_arrayforced()) {
 			result += " = {";
@@ -17,7 +18,7 @@ public class llpl_to_pdx {
 				result += "\n";
 			}
 			for (Token child : token.childs) {
-				result += parse_llpl_to_pdx(child, tab_lvl + 1);
+				result += raw_parse_llpl_to_pdx(child, tab_lvl + 1);
 			}
 			if (token.childs.isEmpty()) {
 				result += "}";
