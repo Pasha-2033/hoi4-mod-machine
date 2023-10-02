@@ -50,9 +50,10 @@ public class Token {
 		public List<String> v = new ArrayList<String>(0);
 	}
 	public static final TokenRelation[] NO_RELATION = {TokenRelation.NONE, TokenRelation.NONE};
+	public boolean arrayforced = false;
 	public TokenRelation[] relations;	//WARNING!!! Token MUST have 2 relations!
 	public String value;
-	public List<Token> childs;
+	public List<Token> childs = new ArrayList<Token>(0);;
 	public Token parent;
 	public TokenComent comments = new TokenComent();
 	public Token(String value) throws IllegalArgumentException {
@@ -65,27 +66,59 @@ public class Token {
 		if (relations.length != 2) {
 			throw new IllegalArgumentException("There is must be 2 TokenRelation");
 		}
-		this.value = value;
+		this.value = value == null ? "" : value;
 		this.relations = relations;
 		addchilds(children);
 	}
+	public boolean is_arrayforced(){
+		if (childs != null) {
+			if (childs.size() == 1) {
+				if (childs.get(0).childs == null) {
+					return arrayforced;
+				}
+				return arrayforced || !childs.get(0).childs.isEmpty();
+			}
+			else if (childs.size() > 1) {
+				return true;
+			}
+			else {
+				return arrayforced;
+			}
+		}
+		return arrayforced;
+	}
 	public Token addchild(Token component) {
+		//returns this
         return addchild(childs.size(), component);
     }
     public Token addchild(int index, Token component) {
+		//returns this
         childs.add(index, component);
         component.parent = this;
         return this;
     }
     public Token addchilds(List<Token> children) {
+		//returns this
 		if (children != null) {
-			if (childs == null) {
-				childs = new ArrayList<Token>(0);
-			}
 			for (Token child : children){
 				addchild(child);
 			}
 		}
         return this;
+    }
+	public Token setchild(int index, Token child) {
+		//returns old child
+		Token old_child = childs.get(index);
+		old_child.parent = null;
+        childs.set(index, child);
+        child.parent = this;
+        return old_child;
+    }
+	public Token removechild(int index) {
+		//returns old child
+        Token old_child = childs.get(index);
+        old_child.parent = null;
+        childs.remove(index);
+        return old_child;
     }
 }

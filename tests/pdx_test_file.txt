@@ -1,0 +1,7 @@
+token = {
+	child = value = v
+	non_value_child
+	tokenbefore = value"pdx value with spaces"token_after = value
+	"string with \" fake double quote"
+}
+array = {}
