@@ -8,15 +8,22 @@ public class pdx_to_llpl {
 	public static List<Token> raw_parse_pdx_to_llpl(List<String> lines){
 		Token root = new Token("");
 		Token node = root;
-		Token last_token = null;
+		Token last_token = root;
 		Token.TokenRelation relation = Token.TokenRelation.NONE;
 		for (int i = 0; i < lines.size(); i++){
 			line_loop: for(int j = 0; j < lines.get(i).length(); j++) {
+				Token new_token;
 				switch (lines.get(i).charAt(j)) {
 					//unation symbol
 					case '\"':
-						last_token = pick_up_str_token(lines, i, j, relation);
-						node.addchild(last_token);
+						new_token = pick_up_str_token(lines, i, j, relation);
+						if (relation == Token.TokenRelation.NONE){
+							node.addchild(new_token);
+						}
+						else {
+							last_token.addchild(new_token);
+						}
+						last_token = new_token;	
 						relation = Token.TokenRelation.NONE;
 						int jump = last_token.value.length();
 						while(jump > lines.get(i).length()) {
@@ -74,7 +81,7 @@ public class pdx_to_llpl {
 						break line_loop;
 					//value symbols
 					default:
-						Token new_token = pick_up_token(lines.get(i), j, relation);
+						new_token = pick_up_token(lines.get(i), j, relation);
 						if (relation == Token.TokenRelation.NONE){
 							node.addchild(new_token);
 						}

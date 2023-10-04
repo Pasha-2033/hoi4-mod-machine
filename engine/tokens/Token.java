@@ -24,10 +24,7 @@ public class Token {
 			}
 			return new TokenRelation[]{parse_symbol_to_relation(relation.charAt(0)), relation.length() > 1 ? parse_symbol_to_relation(relation.charAt(1)) : NONE};
 		}
-		public static String get_short_relation(TokenRelation[] relation) throws IllegalArgumentException {
-			if (relation.length != 2) {
-				throw new IllegalArgumentException("There is must be 2 TokenRelation");
-			}
+		public static String get_short_relation(TokenRelation[] relation) {
 			if (relation[0] == relation[1]) {
 				if (relation[0] == INVERSIVE || relation[0] == EQUAL) {
 					return EQUAL.name;
@@ -41,10 +38,7 @@ public class Token {
 				return relation[0].name + relation[1].name;
 			}
 		}
-		public static String get_long_relation(TokenRelation[] relation) throws IllegalArgumentException {
-			if (relation.length != 2) {
-				throw new IllegalArgumentException("There is must be 2 TokenRelation");
-			}
+		public static String get_long_relation(TokenRelation[] relation) {
 			switch (relation[0].weight + relation[1].weight) {
 				case 3:
 					if (relation[0] == NONE || relation[1] == NONE) {
@@ -69,10 +63,7 @@ public class Token {
 					return "";
 			}
 		}
-		public static boolean pdx_sould_be_short(TokenRelation[] relation) throws IllegalArgumentException {
-			if (relation.length != 2) {
-				throw new IllegalArgumentException("There is must be 2 TokenRelation");
-			}
+		public static boolean pdx_sould_be_short(TokenRelation[] relation) {
 			return relation[0].weight + relation[1].weight < 3 || relation[0].name == relation[1].name;
 		}
 		private static TokenRelation parse_symbol_to_relation(char c) throws IllegalArgumentException {
@@ -91,13 +82,13 @@ public class Token {
 		}
 	}
 	public static class TokenComent {
-		public List<String> v = new ArrayList<String>(0);
+		public List<String> v = new ArrayList<>(0);
 	}
 	public static final TokenRelation[] NO_RELATION = {TokenRelation.NONE, TokenRelation.NONE};
 	public boolean arrayforced = false;
 	public TokenRelation[] relations;	//WARNING!!! Token MUST have 2 relations!
 	public String value;
-	public List<Token> childs = new ArrayList<Token>(0);;
+	public List<Token> childs = new ArrayList<>(0);;
 	public Token parent;
 	public TokenComent comments = new TokenComent();
 	public Token(String value) throws IllegalArgumentException {
