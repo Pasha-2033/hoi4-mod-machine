@@ -25,12 +25,18 @@ public class pdx_to_llpl {
 						}
 						last_token = new_token;	
 						relation = Token.TokenRelation.NONE;
-						int jump = last_token.value.length();
-						while(jump > lines.get(i).length()) {
-							jump -= lines.get(i).length();
-							i++;
+						int jump = last_token.value.length() + j;
+						//value can be polyline
+						//so \n symbol isn`t in List<String> - we can`t apply its` length
+						for (char c : last_token.value.toCharArray()) {
+							if (c == '\n') {
+								jump--;
+							}
 						}
-						j += jump - 1;
+						while(jump > lines.get(i).length()) {
+							jump -= lines.get(i++).length();
+						}
+						j = jump - 1;
 						break;
 					//non value symbols
 					case ' ':
@@ -115,7 +121,7 @@ public class pdx_to_llpl {
 		symbol_loop: for (i = start_line; i < lines.size(); i++) {
 			for (; j < lines.get(i).length(); j++) {
 				if (lines.get(i).charAt(j) == '\"' && prev != '\\') {
-					value += "\n" + lines.get(i).substring(i == start_line ? start_index : 0, j);
+					value += "\n" + lines.get(i).substring(i == start_line ? start_index : 0, j + 1);
 					break symbol_loop;
 				}
 				prev = lines.get(i).charAt(j);
@@ -123,6 +129,6 @@ public class pdx_to_llpl {
 			value += "\n" + lines.get(i).substring(i == start_line ? start_index : 0, j);
 			j = 0;
 		}
-		return new Token((value + '\"').substring(1), new Token.TokenRelation[]{relation, TokenRelation.NONE});
+		return new Token(value.substring(1), new Token.TokenRelation[]{relation, TokenRelation.NONE});
 	}
 }

@@ -7,6 +7,14 @@ token = {
 	tokenbefore = value
 	"pdx value with spaces"
 	token_after = value
-	"string with \" fake double quote"
+	"string with\"fake double quote"
+	"str
+	with
+	3 lines
+	"
+	"str with a lot of 		 spases"
 }
 array = {}
+OR = {
+	AND = NOT
+}

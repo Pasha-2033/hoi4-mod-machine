@@ -7,10 +7,10 @@ public abstract class Status<T> {
 	}
 	public void set_status(T status) {
 		this.status = status;
-		update();
+		update_by_status();
 	}
 	public T get_status(){
 		return status;
 	}
-	protected abstract void update();
+	protected abstract void update_by_status();
 }

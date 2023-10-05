@@ -81,6 +81,7 @@ public class Token {
 			}
 		}
 	}
+	public static enum TokenType {}	//to do
 	public static class TokenComent {
 		public List<String> v = new ArrayList<>(0);
 	}
@@ -156,4 +157,9 @@ public class Token {
         childs.remove(index);
         return old_child;
     }
+
+	//may be should be static function or field enum
+	public boolean is_string(){
+		return value.startsWith("\"") && value.endsWith("\"");
+	}
 }
