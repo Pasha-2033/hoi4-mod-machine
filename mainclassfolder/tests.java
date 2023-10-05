@@ -13,7 +13,7 @@ import engine.parsers.pdx_to_llpl;
 import engine.parsers.llpl_to_pdx;
 import engine.tokens.Token;
 public class tests {
-	protected static class status_output extends Status<String> {
+	public static class status_output extends Status<String> {
 		public status_output() {
 			super();
 		}
@@ -100,8 +100,7 @@ public class tests {
 			for (Token token : tokens) {
 				optimiser.optimise(token, new optimiser.optimiser_function[]{
 					optimiser.notation.identifier_register,
-					optimiser.notation.string_value_compression
-					//optimiser.notation.string_value_super_compression
+					optimiser.notation.string_value_super_compression
 				});
 			}
 			txt_io.write(

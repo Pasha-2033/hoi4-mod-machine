@@ -89,7 +89,7 @@ public class Token {
 	public boolean arrayforced = false;
 	public TokenRelation[] relations;	//WARNING!!! Token MUST have 2 relations!
 	public String value;
-	public List<Token> childs = new ArrayList<>(0);;
+	public List<Token> childs = new ArrayList<>(0);
 	public Token parent;
 	public TokenComent comments = new TokenComent();
 	public Token(String value) throws IllegalArgumentException {

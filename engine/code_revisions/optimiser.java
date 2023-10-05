@@ -60,9 +60,12 @@ public class optimiser {
 		//metacode notation (read string as code and try to write it appropriately)
 		//to do
 	}
-	/*
 	public static class bool {
-		public static optimiser_function or = (token) -> {};
+		//public static optimiser_function or = (token) -> {};
+		//public static optimiser_function and = (token) -> {};
+		//public static optimiser_function not = (token) -> {};
 	}
-	*/
+	public static class debug_release {
+		//public static optimiser_function remove_log = (token) -> {};
+	}
 }
