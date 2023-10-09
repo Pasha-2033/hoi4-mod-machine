@@ -10,13 +10,14 @@ import java.util.Map.Entry;
 import engine.external_interaction.txt_io;
 import engine.parsers.llpl_to_pdx;
 import engine.parsers.pdx_to_llpl;
-public class main {
+public class Main {
     public static void main(String[] args) throws IOException {
 		//tests.start_tests();
+		///*
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String in_path, out_path;
 		tests.status_output logger = new tests.status_output();
-		main_loop: for(;;) {
+		while(true) {
 			System.out.print("\nPath with source: ");
 			in_path = reader.readLine();
 			if (in_path.isEmpty()) {
@@ -50,5 +51,6 @@ public class main {
 				e.printStackTrace();
 			}
 		}
+		//*/
 	}
 }

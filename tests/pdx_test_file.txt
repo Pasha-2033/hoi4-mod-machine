@@ -1,4 +1,4 @@
-token = {
+token={
 	child = value = v
 	value > v1
 	non_value_child
@@ -14,3 +14,6 @@ array = {}
 oR = {
 	AnD = not
 }
+Mėlynas Tadas
+░▀█▀▒██▀░▀▄▀░▀█▀░░▒██▀░█▀▄░█░▀█▀░▄▀▄▒█▀▄
+░▒█▒░█▄▄░█▒█░▒█▒▒░░█▄▄▒█▄▀░█░▒█▒░▀▄▀░█▀▄

@@ -1,24 +1,25 @@
 package engine.external_interaction;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Map.Entry;
 import engine.Status;
 public class txt_io {
-	public static List<String> read(File file, Status<String> status_object) throws FileNotFoundException {	//todo add encoding
+	public static List<String> read(File file, Status<String> status_object) throws IOException {
 		if (status_object != null) {
 			status_object.set_status(file.getPath());
 		}
 		List<String> lines = new ArrayList<String>(0);
-		Scanner reader = new Scanner(file, "utf-8"); //https://www.rgagnon.com/javadetails/java-handle-utf8-file-with-bom.html ("?" artefact)
-		while (reader.hasNextLine()) {
-			lines.add(reader.nextLine());
+		BufferedReader br = new BufferedReader(new FileReader(file.getPath())); //https://www.rgagnon.com/javadetails/java-handle-utf8-file-with-bom.html ("?" artefact)
+		String line = "";
+		while ((line=br.readLine())!=null) {
+			lines.add(line);
 		}
 		//temp script-----------------------------------------------------
 		//проверка для спецсимвола, если кодировка utf-8 with bom
@@ -28,7 +29,7 @@ public class txt_io {
 			}
 		}
 		//----------------------------------------------------------------
-		reader.close();
+		br.close();
 		return lines;
 	}
 	public static void write(File file, String text, boolean rewrite_or_append, Status<String> status_object) throws IOException {
@@ -41,7 +42,7 @@ public class txt_io {
 		mywriter.write(text);
 		mywriter.close();
 	}
-	public static HashMap<String, List<String>> read_folder(File target_folder, boolean read_nested, Status<String> status_object) throws FileNotFoundException {
+	public static HashMap<String, List<String>> read_folder(File target_folder, boolean read_nested, Status<String> status_object) throws IOException {
 		HashMap<String, List<String>> hmap = new HashMap<>();
         for (File f : target_folder.listFiles()) {
             if (f.isDirectory()) {

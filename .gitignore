@@ -1,2 +1,4 @@
 #don`t let tests waste repo
-tests/massive_tests/
+tests/
+#remove build
+hoi4-mod-machine.jar

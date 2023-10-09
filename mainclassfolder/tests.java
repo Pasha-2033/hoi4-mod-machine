@@ -2,6 +2,7 @@ package mainclassfolder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,9 +26,9 @@ public class tests {
 		//status_output s_out = new status_output();
 		//test_token_relations();
 		//test_read_write();
-		//test_files();
+		test_files();
 		//massive_test_files(s_out, "tests/massive_tests/in", "tests/massive_tests/out");
-		optimise_register();
+		//optimise_register();
 	}
 	public static void test_token_relations() {
 		Token.TokenRelation[] relations = new Token.TokenRelation[] {
@@ -48,7 +49,7 @@ public class tests {
 					)
 				)
 			);
-		} catch (FileNotFoundException | IllegalArgumentException e) {
+		} catch (IOException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 	}
