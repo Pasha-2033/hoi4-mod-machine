@@ -1,8 +1,7 @@
 package mainclassfolder;
+import java.awt.Rectangle;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +12,7 @@ import engine.external_interaction.txt_io;
 import engine.parsers.pdx_to_llpl;
 import engine.parsers.llpl_to_pdx;
 import engine.tokens.Token;
+import gui.instances.MainWindow;
 public class tests {
 	public static class status_output extends Status<String> {
 		public status_output() {
@@ -23,12 +23,19 @@ public class tests {
 		}
 	}
 	public static void start_tests() {
+		test_graphics();
+		//test_functions();
+	}
+	public static void test_functions() {
 		//status_output s_out = new status_output();
 		//test_token_relations();
 		//test_read_write();
-		test_files();
+		//test_files();
 		//massive_test_files(s_out, "tests/massive_tests/in", "tests/massive_tests/out");
 		//optimise_register();
+	}
+	public static void test_graphics() {
+		create_window();
 	}
 	public static void test_token_relations() {
 		Token.TokenRelation[] relations = new Token.TokenRelation[] {
@@ -113,6 +120,14 @@ public class tests {
 				null
 			);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void create_window() {
+		try {
+			MainWindow win = new MainWindow();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

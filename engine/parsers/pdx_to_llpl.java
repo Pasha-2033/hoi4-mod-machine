@@ -80,7 +80,9 @@ public class pdx_to_llpl {
 						if (node.parent == null) {
 							//error on i line in j symbol to much closing brackets
 						}
-						node = node.parent;
+						else {
+							node = node.parent;
+						}
 						break;
 					case '#':
 						node.comments.v.add(lines.get(i).substring(j, lines.get(i).length()));

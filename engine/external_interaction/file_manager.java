@@ -16,4 +16,7 @@ public class file_manager {
 			file.mkdirs();
 		}
 	}
+	public static boolean has_format(String file_name, String format) {
+		return file_name.matches(".*\\." + format);
+	}
 }
