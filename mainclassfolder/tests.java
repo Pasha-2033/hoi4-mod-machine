@@ -1,5 +1,4 @@
 package mainclassfolder;
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class tests {
 		//test_read_write();
 		//test_files();
 		//massive_test_files(s_out, "tests/massive_tests/in", "tests/massive_tests/out");
-		//optimise_register();
+		optimise_register();
 	}
 	public static void test_graphics() {
 		create_window();

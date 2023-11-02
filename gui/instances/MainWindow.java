@@ -59,11 +59,11 @@ public class MainWindow extends Window {
 		double border = 40;
         double size[][] = {
 			{border, 0,TableLayout.FILL, border},		// Columns
-            {border, 20, 100, 30, 30, 20, 20, 20, 20, 60, TableLayout.FILL, border}		// Rows
+            {border, 20, 120, 30, 30, 20, 20, 20, 20, 60, TableLayout.FILL, border}		// Rows
 		};
         setLayout(new TableLayout(size));
-		JLabel version = new JLabel("Версия HOI4MM V0.2");
-		JLabel specialisation = new JLabel("<html><pre>Специализация:<br/>- Минимальный GUI приложения<br/>- Минимальный функционал<br/>  - Форматирование кода по стандарту PDX v1.0<br/>  - Экспериментальные функции<pre/><html/>");
+		JLabel version = new JLabel("Версия HOI4MM V0.3");
+		JLabel specialisation = new JLabel("<html><pre>Специализация:<br/>- Минимальный GUI приложения<br/>- Минимальный функционал<br/>  - Форматирование кода по стандарту PDX v1.0<br/>  - Экспериментальные функции<br/>  - Поддержка комментариев<pre/><html/>");
 		JPanel in_path_container = new JPanel();
 		JPanel out_path_container = new JPanel();
 		BoxLayout in_path_layout = new BoxLayout(in_path_container, BoxLayout.X_AXIS);

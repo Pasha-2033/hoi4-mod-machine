@@ -7,12 +7,15 @@ public class pdx_to_llpl {
 	//raw functions is more like traslator, can`t use optimal expression
 	public static List<Token> raw_parse_pdx_to_llpl(List<String> lines){
 		Token root = new Token("");
+		root.arrayforced = true;
 		Token node = root;
 		Token last_token = root;
 		Token.TokenRelation relation = Token.TokenRelation.NONE;
 		for (int i = 0; i < lines.size(); i++){
+			boolean comment_prev = false;
 			line_loop: for(int j = 0; j < lines.get(i).length(); j++) {
 				Token new_token;
+				int index;
 				switch (lines.get(i).charAt(j)) {
 					//unation symbol
 					case '\"':
@@ -37,8 +40,9 @@ public class pdx_to_llpl {
 							jump -= lines.get(i++).length();
 						}
 						j = jump - 1;
+						comment_prev = true;
 						break;
-					//non value symbols
+					//non value symbols (need to reduse default case script, DO NOT REMOVE!)
 					case ' ':
 						break;
 					case '\t':
@@ -47,6 +51,7 @@ public class pdx_to_llpl {
 					case '=':
 						if (relation == Token.TokenRelation.NONE) {
 							relation = Token.TokenRelation.EQUAL;
+							comment_prev = true;
 						}
 						else {
 							//error on i line in j symbol - relation is already set, ignored
@@ -55,6 +60,7 @@ public class pdx_to_llpl {
 					case '>':
 						if (relation == Token.TokenRelation.NONE) {
 							relation = Token.TokenRelation.GREATER;
+							comment_prev = true;
 						}
 						else {
 							//error on i line in j symbol - relation is already set, ignored
@@ -63,6 +69,7 @@ public class pdx_to_llpl {
 					case '<':
 						if (relation == Token.TokenRelation.NONE) {
 							relation = Token.TokenRelation.LESS;
+							comment_prev = true;
 						}
 						else {
 							//error on i line in j symbol - relation is already set, ignored
@@ -70,22 +77,41 @@ public class pdx_to_llpl {
 						break;
 					case '{':
 						if (node == last_token) {
-							//error on i line in j symbol to much opening brackets
+							//error on i line in j symbol too much opening brackets, ignored
 						}
+						else if (last_token == null) {
+							break;
+						}
+						comment_prev = true;
 						node = last_token;
 						node.arrayforced = true;
 						relation = Token.TokenRelation.NONE;
+						comment_prev = true;
 						break;
 					case '}':
 						if (node.parent == null) {
-							//error on i line in j symbol to much closing brackets
+							//error on i line in j symbol to much closing brackets, ignored
 						}
 						else {
 							node = node.parent;
+							last_token = null;
+							comment_prev = false;
 						}
 						break;
 					case '#':
-						node.comments.v.add(lines.get(i).substring(j, lines.get(i).length()));
+						Token comment = new Token(lines.get(i).substring(j, lines.get(i).length()), new Token.TokenRelation[]{relation, TokenRelation.NONE});
+						index = 0;
+						if (comment_prev) {
+							if (last_token.parent.is_arrayforced()) {
+								last_token.parent.addchild(last_token.parent.childs.size() - 1, comment);
+							}
+							else {
+								last_token.parent.parent.addchild(last_token.parent.parent.childs.size() - 1, comment);
+							}
+						}
+						else {
+							node.addchild(node.childs.size(), comment);
+						}
 						break line_loop;
 					//value symbols
 					default:
@@ -99,6 +125,7 @@ public class pdx_to_llpl {
 						last_token = new_token;				
 						relation = Token.TokenRelation.NONE;
 						j += new_token.value.length() - 1;
+						comment_prev = true;
 						break;
 				}
 			}

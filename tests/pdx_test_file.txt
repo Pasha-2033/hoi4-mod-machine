@@ -1,5 +1,6 @@
+#comment 0
 token={
-	child = value = v
+	child = value = v #some comments
 	value > v1
 	non_value_child
 	tokenbefore = value"pdx value with spaces"token_after = value
@@ -9,8 +10,19 @@ token={
 	3 lines
 	"
 	"str    with     a lot      of 		 spases"
+	wrong_value_writing = #with comment
+	30
+	"str with #"
 }
-array = {}
+{ #comment 1
+array #very array comment
+= #strange comment to array
+{ #comment to array
+
+} #this cant be comment to array
+set_variable = {
+	myvar = -1 #comment to my var
+}
 oR = {
 	AnD = not
 }

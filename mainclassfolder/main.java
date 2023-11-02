@@ -12,8 +12,8 @@ import engine.parsers.llpl_to_pdx;
 import engine.parsers.pdx_to_llpl;
 public class Main {
     public static void main(String[] args) throws IOException {
-		//tests.start_tests();
-		///*
+		tests.start_tests();
+		/*
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String in_path, out_path;
 		tests.status_output logger = new tests.status_output();
@@ -51,6 +51,6 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-		//*/
+		*/
 	}
 }

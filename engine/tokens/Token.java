@@ -15,15 +15,6 @@ public class Token {
 			this.name = name;
 			this.weight = weight;
 		}
-		public static TokenRelation[] parse_relation(String relation) throws IllegalArgumentException {
-			if (relation.isEmpty()){
-				return new TokenRelation[]{NONE, NONE};
-			}
-			else if (relation.length() > 2){
-				throw new IllegalArgumentException("Can`t parse more than 2 symbols - it can`t be more than 2 TokenRelation.");
-			}
-			return new TokenRelation[]{parse_symbol_to_relation(relation.charAt(0)), relation.length() > 1 ? parse_symbol_to_relation(relation.charAt(1)) : NONE};
-		}
 		public static String get_short_relation(TokenRelation[] relation) {
 			if (relation[0] == relation[1]) {
 				if (relation[0] == INVERSIVE || relation[0] == EQUAL) {
@@ -66,24 +57,6 @@ public class Token {
 		public static boolean pdx_sould_be_short(TokenRelation[] relation) {
 			return relation[0].weight + relation[1].weight < 3 || relation[0].name == relation[1].name;
 		}
-		private static TokenRelation parse_symbol_to_relation(char c) throws IllegalArgumentException {
-			switch (c) {
-				case '=':
-					return EQUAL;
-				case '>':
-					return GREATER;
-				case '<':
-					return LESS;
-				case '!':
-					return INVERSIVE;
-				default:
-					throw new IllegalArgumentException(String.format("Can`t parse \"%c\" symbol, it can be only !,=,>,<.", c));
-			}
-		}
-	}
-	public static enum TokenType {}	//to do
-	public static class TokenComent {
-		public List<String> v = new ArrayList<>(0);
 	}
 	public static final TokenRelation[] NO_RELATION = {TokenRelation.NONE, TokenRelation.NONE};
 	public boolean arrayforced = false;
@@ -91,7 +64,6 @@ public class Token {
 	public String value;
 	public List<Token> childs = new ArrayList<>(0);
 	public Token parent;
-	public TokenComent comments = new TokenComent();
 	public Token(String value) throws IllegalArgumentException {
 		this(value, NO_RELATION);
 	}
@@ -107,21 +79,18 @@ public class Token {
 		addchilds(children);
 	}
 	public boolean is_arrayforced(){
-		if (childs != null) {
-			if (childs.size() == 1) {
-				if (childs.get(0).childs == null) {
-					return arrayforced;
-				}
-				return arrayforced || !childs.get(0).childs.isEmpty();
-			}
-			else if (childs.size() > 1) {
-				return true;
-			}
-			else {
+		if (childs.size() == 1) {
+			if (childs.get(0).childs.isEmpty()) {
 				return arrayforced;
 			}
+			return arrayforced || !childs.get(0).childs.isEmpty();
 		}
-		return arrayforced;
+		else if (childs.size() > 1) {
+			return true;
+		}
+		else {
+			return arrayforced;
+		}
 	}
 	public Token addchild(Token component) {
 		//returns this

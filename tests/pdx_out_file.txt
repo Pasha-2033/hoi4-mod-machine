@@ -1,5 +1,7 @@
+#comment 0
 token = {
 	child = {
+		#some comments
 		value = v
 	}
 	value > v1
@@ -10,8 +12,20 @@ token = {
 	"string with\"fake double quote"
 	"str with 3 lines"
 	"str with a lot of spases"
+	#with comment
+	wrong_value_writing = 30
+	"str with #"
 }
+#comment 1
+#very array comment
+#strange comment to array
+#comment to array
 array = {}
+#this cant be comment to array
+set_variable = {
+	#comment to my var
+	myvar = -1
+}
 OR = {
 	AND = NOT
 }
